@@ -1,0 +1,35 @@
+{
+  "author": {
+    "name": "Rob Crowley"
+  },
+  "dependencies": {
+    "apollo-client": "^1.9.0-1",
+    "dotenv": "^4.0.0",
+    "graphql-tag": "^2.4.2",
+    "subscriptions-transport-ws": "^0.8.1",
+    "ws": "^3.1.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-eslint": "^7.2.3",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-env": "^1.5.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "eslint": "^3.19.0"
+  },
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "main": "./dist/client.js",
+  "name": "artistify-client",
+  "version": "0.0.1",
+  "description": "artistify-client",
+  "scripts": {
+    "build": "babel src -d dist",
+    "start": "nodemon --exec babel-node src/client.js",
+    "lint": "eslint src",
+    "test": "npm run lint && npm run test:coverage",
+    "serve": "node dist/client.js"
+  }
+}

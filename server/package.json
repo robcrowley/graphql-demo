@@ -1,0 +1,53 @@
+{
+  "author": {
+    "name": "Rob Crowley"
+  },
+  "dependencies": {
+    "apollo-server-express": "^1.0.4",
+    "bcrypt": "^1.0.2",
+    "body-parser": "^1.17.2",
+    "chalk": "^2.0.1",
+    "compression": "^1.7.0",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
+    "dataloader": "^1.3.0",
+    "debug": "^2.6.8",
+    "dotenv": "^4.0.0",
+    "es6-error": "^4.0.2",
+    "express": "^4.15.3",
+    "express-graphql": "^0.6.7",
+    "express-session": "^1.15.4",
+    "graphql": "^0.10.5",
+    "graphql-custom-types": "^1.1.0",
+    "graphql-subscriptions": "^0.4.4",
+    "node-fetch": "^1.7.1",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "sqlite": "^2.8.0",
+    "subscriptions-transport-ws": "^0.8.1",
+    "uuid": "^3.1.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-eslint": "^7.2.3",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-env": "^1.5.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "eslint": "^3.19.0"
+  },
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "main": "./dist/server.js",
+  "name": "artistify-graphql",
+  "version": "0.0.1",
+  "description": "artistify-graphql",
+  "scripts": {
+    "build": "babel src -d dist",
+    "start": "nodemon --exec babel-node src/server.js",
+    "lint": "eslint src",
+    "test": "npm run lint && npm run test:coverage",
+    "serve": "node dist/server.js"
+  }
+}
