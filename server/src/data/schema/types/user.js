@@ -19,7 +19,7 @@ import {
 
 export const UserType = new GraphQLObjectType({
     name: 'UserType',
-    description: '...',
+    description: 'Represents a user within the sytem.',
     interfaces: [NodeType],
     fields: () => ({
         id: {

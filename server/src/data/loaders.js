@@ -4,6 +4,7 @@ import {
     Label,
     Artist,
     Album,
+    AlbumReview,
     User
 } from '../models';
 
@@ -13,6 +14,8 @@ const createLoaders = viewer => {
     const artistLoader = new DataLoader(ids => Artist.get(viewer, ids));
 
     const artistWatchLoader = new DataLoader(ids => ArtistWatch.get(viewer, ids));
+
+    const albumReviewLoader = new DataLoader(ids => AlbumReview.get(viewer, ids));
 
     const albumLoader = new DataLoader(ids => Album.get(viewer, ids));
 
@@ -44,6 +47,7 @@ const createLoaders = viewer => {
         label: labelLoader,
         artist: artistLoader,
         artistWatch: artistWatchLoader,
+        albumReview: albumReviewLoader,
         album: albumLoader,
         user: userLoader,
         userByLogin: userByLoginLoader

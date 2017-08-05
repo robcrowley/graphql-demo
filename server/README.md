@@ -1,3 +1,0 @@
-﻿# artistify-graphql
-
-

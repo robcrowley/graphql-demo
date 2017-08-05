@@ -18,10 +18,10 @@ export const NodeType = new GraphQLInterfaceType({
     fields: {
         id: { type: GraphQLID }
     },
-    resolveType: value => LabelType /*value.title
+    resolveType: value => value.title
         ? AlbumType : value.login
         ? UserType : value.founded
-        ? LabelType : ArtistType*/
+        ? LabelType : ArtistType
 });
 
 export default NodeType;

@@ -18,10 +18,30 @@ const getAlbumIdsByArtist = (ids, first) => db
     .then(rows => rows.map(({albumId}) => albumId));
 
 const addAlbum = (title, artistId, labelId) => db
-    .run('INSERT INTO ALBUM (title, artistId, labelId) VALUES ($title, $artistId, $labelId)', {
+    .run('INSERT INTO Album (title, artistId, labelId) VALUES ($title, $artistId, $labelId)', {
         $title: title,
         $artistId: artistId,
         $labelId: labelId
+    })
+    .then(({lastID}) => lastID);
+
+const getAlbumReviewIdsByAlbum = (ids, first) => db
+    .all(`SELECT albumReviewId FROM AlbumReview WHERE albumId IN (${parameterize(ids)}) LIMIT ?`, asArray(ids).concat(first))
+    .then(rows => rows.map(({albumId}) => albumId));
+
+const getAlbumReviewIdsByUser = (ids, first) => db
+    .all(`SELECT albumReviewId FROM AlbumReview WHERE userId IN (${parameterize(ids)}) LIMIT ?`, asArray(ids).concat(first))
+    .then(rows => rows.map(({albumId}) => albumId));
+
+const getAlbumReviews = ids => db
+    .all(`SELECT * FROM AlbumReview WHERE albumReviewId IN (${parameterize(ids)})`, ids);
+
+const addAlbumReview = (albumId, userId, content, rating) => db
+    .run('INSERT INTO AlbumReview (albumId, userId, content, rating) VALUES ($albumId, $userId, $content, $rating)', {
+        $albumId: albumId,
+        $userId: userId,
+        $content: content,
+        $rating: rating
     })
     .then(({lastID}) => lastID);
 
@@ -50,7 +70,11 @@ export default {
     getAlbums,
     getAlbumIdsByLabel,
     getAlbumIdsByArtist,
+    getAlbumReviews,
+    getAlbumReviewIdsByUser,
+    getAlbumReviewIdsByAlbum,
     addAlbum,
+    addAlbumReview,
     getUser,
     getUserByLogin
 };

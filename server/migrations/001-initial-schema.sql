@@ -2,23 +2,23 @@
 CREATE TABLE Artist
 (
   artistId INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT,
-  website TEXT
+  name NVARCHAR(128) NOT NULL,
+  website NVARCHAR(128) NOT NULL
 );
 
 CREATE TABLE Label
 (
   labelId INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT,
-  founded INTEGER
+  name NVARCHAR(128) NOT NULL,
+  founded INTEGER NOT NULL
 );
 
 CREATE TABLE Album
 (
   albumId INTEGER PRIMARY KEY AUTOINCREMENT,
-  title TEXT,
-  artistId INTEGER,
-  labelId INTEGER,
+  title NVARCHAR(128) NOT NULL,
+  artistId INTEGER NOT NULL,
+  labelId INTEGER NOT NULL,
   CONSTRAINT Album_fk_artistId FOREIGN KEY (artistId)
     REFERENCES Artist (artistId) ON UPDATE CASCADE ON DELETE CASCADE,
   CONSTRAINT Album_fk_labelId FOREIGN KEY (labelId)
@@ -28,21 +28,35 @@ CREATE TABLE Album
 CREATE TABLE User
 (
   userId INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT,
-  login TEXT,
-  password TEXT,
+  name NVARCHAR(128) NOT NULL,
+  login NVARCHAR(32) NOT NULL,
+  password NVARCHAR(128) NOT NULL,
   CONSTRAINT login_unique UNIQUE (login)
 );
 
 CREATE TABLE ArtistWatch
 (
   artistWatchId INTEGER PRIMARY KEY AUTOINCREMENT,
-  userId INTEGER,
-  artistId INTEGER,  
+  userId INTEGER NOT NULL,
+  artistId INTEGER NOT NULL,  
   CONSTRAINT User_fk_userId FOREIGN KEY (userId)
     REFERENCES User (userId) ON UPDATE CASCADE ON DELETE CASCADE,
   CONSTRAINT Artist_fk_artistId FOREIGN KEY (artistId)
-    REFERENCES Album (artistId) ON UPDATE CASCADE ON DELETE CASCADE
+    REFERENCES Artist (artistId) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE AlbumReview
+(
+  albumReviewId INTEGER PRIMARY KEY AUTOINCREMENT,
+  albumId INTEGER NOT NULL,
+  userId INTEGER NOT NULL,
+  content TEXT NOT NULL,
+  rating INTEGER NOT NULL,
+  dateCreated DATE DEFAULT CURRENT_DATE, 
+  CONSTRAINT User_fk_userId FOREIGN KEY (userId)
+    REFERENCES User (userId) ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT Album_fk_albumId FOREIGN KEY (albumId)
+    REFERENCES Album (albumId) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 INSERT INTO Label
@@ -99,9 +113,15 @@ INSERT INTO ArtistWatch
 VALUES
   (1, 1);
 
+INSERT INTO AlbumReview
+  (userId, albumId, content, rating)
+VALUES
+  (1, 1, 'Dummy, the 1994 debut from Portishead is a masterwork of downbeat and desperation.', 9);
+
 -- Down
 DROP TABLE Label;
 DROP TABLE Album;
 DROP TABLE Artist;
 DROP TABLE ArtistWatch;
+DROP TABLE AlbumReview;
 DROP TABLE User;

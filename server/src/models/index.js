@@ -3,3 +3,4 @@ export { default as Label } from './label';
 export { default as Album } from './album';
 export { default as Artist } from './artist';
 export { default as ArtistWatch } from './artistWatch';
+export { default as AlbumReview } from './albumReview';

@@ -27,7 +27,6 @@ export const ArtistType = new GraphQLObjectType({
         artistId: { type: GraphQLID },
         name: { type: GraphQLString },
         website: { type: GraphQLURL },
-        albums: { type: GraphQLInt },
         albumsList: {
             type: new GraphQLList(AlbumType),
             args: {

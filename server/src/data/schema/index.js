@@ -7,24 +7,26 @@
     GraphQLList
 } from 'graphql';
 
-import { 
+import {
     NodeType,
     UserType,
-    LabelType, 
+    LabelType,
     AlbumType,
-    ArtistType, 
+    ArtistType,
     AlbumInputType,
     AlbumOrderType,
     ArtistWatchType,
-    DefaultAlbumOrder, 
-    AlbumOrderFieldType, 
+    AlbumReviewType,
+    DefaultAlbumOrder,
+    AlbumOrderFieldType,
     OrderDirectionType,
     AlbumAddedEventType,
+    AlbumReviewInputType
 } from './types';
 
 import { withFilter } from 'graphql-subscriptions';
 import { mediator, topics } from '../subscriptions';
-import { Album, ArtistWatch } from '../../models';
+import { Album, ArtistWatch, AlbumReview } from '../../models';
 import { extractId } from '../../global';
 
 const QueryType = new GraphQLObjectType({
@@ -62,6 +64,14 @@ const QueryType = new GraphQLObjectType({
             },
             resolve: (root, args, { loaders }) => loaders.userByLogin.load(args.login)
         },
+        review: {
+            type: AlbumReviewType,
+            args: {
+                id: { type: GraphQLID },
+                albumReviewId: { type: GraphQLID }
+            },
+            resolve: (root, args, { loaders }) => loaders.albumReview.load(extractId(args, 'albumReviewId'))
+        }
     }
 });
 
@@ -82,6 +92,17 @@ const MutationType = new GraphQLObjectType({
                     mediator.publish(topics.ALBUM_ADDED, { [topics.ALBUM_ADDED]: { artistId, albumId } });
                     return album;
                 })
+        },
+        addReview: {
+            type: AlbumReviewType,
+            args: {
+                review: {
+                    type: new GraphQLNonNull(AlbumReviewInputType)
+                }
+            },
+            resolve: (root, { review }, { loaders }) => AlbumReview
+                .add(review)
+                .then(id => loaders.albumReview.load(id))
         }
     }
 });
@@ -97,7 +118,7 @@ const SubscriptionType = new GraphQLObjectType({
             },
             subscribe: withFilter(
                 () => mediator.asyncIterator(topics.ALBUM_ADDED),
-                async ({ albumAdded : album }, { userId }, { viewer }) => {
+                async ({ albumAdded: album }, { userId }, { viewer }) => {
                     const isRelevant = await ArtistWatch.getByUser(viewer, userId)
                         .then(watches => watches.map(({ artistId }) => artistId))
                         .then(ids => ids.includes(album.artistId));
