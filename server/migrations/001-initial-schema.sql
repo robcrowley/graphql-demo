@@ -114,7 +114,7 @@ VALUES
   (1, 1);
 
 INSERT INTO AlbumReview
-  (userId, albumId, content, rating)
+  (albumId, userId, content, rating)
 VALUES
   (1, 1, 'Dummy, the 1994 debut from Portishead is a masterwork of downbeat and desperation.', 9);
 

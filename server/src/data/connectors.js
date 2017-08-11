@@ -27,11 +27,11 @@ const addAlbum = (title, artistId, labelId) => db
 
 const getAlbumReviewIdsByAlbum = (ids, first) => db
     .all(`SELECT albumReviewId FROM AlbumReview WHERE albumId IN (${parameterize(ids)}) LIMIT ?`, asArray(ids).concat(first))
-    .then(rows => rows.map(({albumId}) => albumId));
+    .then(rows => rows.map(({albumReviewId}) => albumReviewId));
 
 const getAlbumReviewIdsByUser = (ids, first) => db
     .all(`SELECT albumReviewId FROM AlbumReview WHERE userId IN (${parameterize(ids)}) LIMIT ?`, asArray(ids).concat(first))
-    .then(rows => rows.map(({albumId}) => albumId));
+    .then(rows => rows.map(({albumReviewId}) => albumReviewId));
 
 const getAlbumReviews = ids => db
     .all(`SELECT * FROM AlbumReview WHERE albumReviewId IN (${parameterize(ids)})`, ids);

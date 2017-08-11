@@ -12,7 +12,7 @@ export class AlbumReview {
 
     static async get(viewer, ids) {
         const data = await dao.getAlbumReviews(ids);
-        return data.map(item =>new AlbumReview(item));
+        return data.map(item => new AlbumReview(item));
     }
 
     static async getByUser(viewer, ids, first = 10) {

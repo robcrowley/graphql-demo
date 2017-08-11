@@ -1,10 +1,12 @@
 import { toGlobalId } from '../../../global';
-import { NodeType, ArtistType, LabelType } from './'
+import { AlbumReview } from '../../../models';
+import { NodeType, ArtistType, LabelType, AlbumReviewType } from './'
 import { AlbumOrderFieldType, OrderDirectionType } from './enums';
 
 import { 
     GraphQLID,
     GraphQLInt,
+    GraphQLList,
     GraphQLString,
     GraphQLNonNull,
     GraphQLObjectType,
@@ -27,6 +29,7 @@ export const AlbumOrderType = new GraphQLInputObjectType({
 
 export const AlbumInputType = new GraphQLInputObjectType({
     name: 'AlbumInput',
+    description: '...',
     fields: {
         title: {
             type: new GraphQLNonNull(GraphQLString)
@@ -58,6 +61,16 @@ export const AlbumType = new GraphQLObjectType({
         label: {
             type: LabelType,
             resolve: ({ labelId }, args, { loaders }) => loaders.label.load(labelId)
+        },
+        reviewList: {
+             type: new GraphQLList(AlbumReviewType),
+            args: {
+                first: {
+                    type: GraphQLID,
+                    defaultValue: 10
+                }
+            },
+            resolve: ({ albumId }, { first }, { viewer }) => AlbumReview.getByAlbum(viewer, albumId, first)
         }
     })
 });

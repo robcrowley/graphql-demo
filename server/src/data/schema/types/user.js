@@ -1,10 +1,11 @@
 import { toGlobalId } from '../../../global';
-import { ArtistWatch } from '../../../models';
+import { AlbumReview, ArtistWatch } from '../../../models';
 
 import { 
     NodeType, 
     AlbumType, 
     AlbumOrderType, 
+    AlbumReviewType,
     ArtistWatchType, 
     DefaultAlbumOrder
 } from './';
@@ -38,6 +39,16 @@ export const UserType = new GraphQLObjectType({
                 }
             },
             resolve: ({ userId }, { first }, { viewer }) => ArtistWatch.getByUser(viewer, userId, first)
+        },
+        reviewList: {
+             type: new GraphQLList(AlbumReviewType),
+            args: {
+                first: {
+                    type: GraphQLID,
+                    defaultValue: 10
+                }
+            },
+            resolve: ({ userId }, { first }, { viewer }) => AlbumReview.getByUser(viewer, userId, first)
         }
     })
 });
