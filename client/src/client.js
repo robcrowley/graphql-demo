@@ -42,14 +42,14 @@ export const start = () => {
                     artist {
                         id
                         name
-                        label {
-                            name
-                            founded
-                        }
                     }
                     album {
                         id
                         title
+                        label {
+                            name
+                            founded
+                        }
                     }
                 }
             }`,
@@ -58,9 +58,9 @@ export const start = () => {
     });
 
     observerable.subscribe({
-        next: (data) => console.log(chalk.green(JSON.stringify(data))),
+        next: (data) => console.log(chalk.green(JSON.stringify(data, null, 2))),
 
-        error: (err) => console.error(chalk.red('err', JSON.stringify(err)))
+        error: (err) => console.error(chalk.red('err', JSON.stringify(err, null, 2)))
     });
 
     (function wait() { setTimeout(wait, 5000) })();

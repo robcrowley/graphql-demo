@@ -35,10 +35,10 @@ export const AlbumInputType = new GraphQLInputObjectType({
             type: new GraphQLNonNull(GraphQLString)
         },
         artistId: {
-            type: new GraphQLNonNull(GraphQLInt)
+            type: new GraphQLNonNull(GraphQLID)
         },
         labelId: {
-            type: new GraphQLNonNull(GraphQLInt)
+            type: new GraphQLNonNull(GraphQLID)
         }
     }
 });
